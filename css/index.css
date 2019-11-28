@@ -116,12 +116,16 @@ canvas {
     border: 2px solid white;
 }
 
+#test-slider {
+    height: 30px;
+}
+
 .lottery-start {
     width: 80px;
     height: 20px;
     line-height: 20px;
     left: 50%;
-    margin-top: 40px;
+    margin-top: 20px;
     transform: translate(-50%, 0);
     -ms-transform: translate(-50%, 0); /* IE 9 */
     -webkit-transform: translate(-50%, 0); /* Safari and Chrome */
@@ -135,6 +139,58 @@ canvas {
 
 #lottery-file {
     display: none;
+}
+
+.lottery .lottery-current-file {
+    text-align: right;
+    color: white;
+    font-size: 13px;
+}
+
+/* 连抽 */
+.btn-muti-lottery {
+    float: right;
+    color: white;
+}
+
+.muti-lottery {
+    position: absolute;
+    height: 100%;
+    top: 40px;
+    width: 0px;
+    overflow-x: hidden;
+}
+
+.muti-lottery-content {
+    position: absolute;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.muti-lottery-content .input-field {
+    width: 200px;
+}
+
+.muti-lottery-content .input-field input{
+    color: white;
+}
+
+.muti-lottery-content .input-field label{
+    color: white;
+    font-weight: bold;
+}
+
+.muti-lottery-content #muti-display-field {
+    border: 2px dashed white;
+    color: white;
+    text-align: center;
+}
+
+.muti-lottery-content #reset-data {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 100px;
+    z-index: 1;
 }
 
 /* Setting */
@@ -168,6 +224,7 @@ canvas {
     -ms-transform: translate(-50%, -50%); /* IE 9 */
     -webkit-transform: translate(-50%, -50%); /* Safari and Chrome */
     overflow-y: auto;
+    z-index: 10;
 }
 
 .st-content {
@@ -234,10 +291,6 @@ canvas {
     text-align: center;
 }
 
-#lottery-current-file {
-    display: none;
-}
-
 /* Cover */
 .dark-cover {
     position: absolute;
@@ -251,6 +304,14 @@ canvas {
     position: absolute;
     width: 100%;
     height: 40px;
+    background: black;
+    opacity: 0.2;
+}
+
+.dark-cover-muti-lottery {
+    position: absolute;
+    height: 100%;
+    width: 400px;
     background: black;
     opacity: 0.2;
 }

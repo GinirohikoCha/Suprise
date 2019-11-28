@@ -50,12 +50,33 @@
                 </div>
             </div>
 
+            <!-- muti-lottery -->
+            <div class="muti-lottery">
+                <div class="dark-cover-muti-lottery"></div>
+                <div class="muti-lottery-content">
+                    <div class="input-field col s12">
+                        <input type="text" id="muti-lottery-times" class="autocomplete">
+                        <label id="muti-lottery-times-label" for="muti-lottery-times">输入连抽数量</label>
+                    </div>
+
+                    <div id="muti-display-field"></div>
+                    <div class="waves-effect waves-light btn" id="reset-data">重置连续抽奖结果</div>
+                </div>
+            </div>
+            <!-- lottery -->
             <div class="lottery">
                 <audio src="audio/start.mp3" id="lottery-audio-start" hide="true" loop="true"></audio>
                 <audio src="audio/end.ogg" id="lottery-audio-end" hide="true"></audio>
+                <!-- <div class="lottery-current-file">未选择文件</div> -->
                 <div class="lottery-core" id="lottery-core">
                     在右上设置中选择文件
                 </div>
+
+                <label class="btn-muti-lottery">
+                    <input type="checkbox" name="muti-lottery"/>
+                    <span>连续</span>
+                </label>
+
                 <div class="lottery-start pillars-a">
                     开 始
                 </div>
@@ -73,7 +94,7 @@
                             <img src="img/ic-txt.png" ondragstart="return false" height="65px" width="65px"/>
                             <div>
                                 <span class="color-link">选择文件上传</span>或拖拽文件到这里<br/>
-                                <span class="color-borrder" id="lottery-current-file"></span>
+                                <span class="lottery-current-file color-borrder"></span>
                             </div>
                         </label>
                     </div>
@@ -90,7 +111,7 @@
                                     </label>
                                 </div></li>
                             <li class="collection-item">流光背景
-                                <div class="secondary-content switch">
+                                <div class="secondary-content switch tooltipped" data-position="bottom" data-tooltip="关闭需重启生效">
                                     <label>
                                       关
                                       <input name="glf" type="checkbox">

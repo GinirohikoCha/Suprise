@@ -4,6 +4,7 @@ const funcBtnCount = 1; // 功能按键数量
 var lotteryConfig; // 配置文件JSONObject
 // 绑定
 $(document).ready(function() {
+    $('.tooltipped').tooltip();
     // 空出功能按键位置
     $(window).resize(function() {
         $(".title-dragable").width($(window).width()-50*funcBtnCount);
@@ -32,12 +33,44 @@ $(document).ready(function() {
 
     $(".lottery-start").click(function() {
         if (isLotterying) {
-            stopLottery();
+            if (isMutiLottery) {
+                $("#muti-lottery-times-label").text("输入连抽数量");
+            } else {
+                stopLottery();
+            }
             $(this).text("开 始");
         } else {
-            startLottery();
+            if (isMutiLottery) {
+                var lotteryNum = $("#muti-lottery-times").val();
+                if (isNaN(lotteryNum) || lotteryNum <= 0)
+                    return; // TODO
+                lotteryNum = Math.ceil(lotteryNum);
+                $("#muti-lottery-times").val(lotteryNum)
+                if (lotteryNum > tempItemsArray.length)
+                    return; // TODO
+                $("#muti-lottery-times-label").text("剩余数量");
+                startLottery(lotteryNum);
+            } else {
+                startLottery(1);
+            }
             $(this).text("中 止");
         }
+    });
+
+    $("input[name='muti-lottery']").change(function() {
+        isMutiLottery = this.checked;
+        if (this.checked) {
+            $(".muti-lottery").animate({width:"300px"});
+            $(".lottery").animate({marginLeft:"150px"});
+        } else {
+            $(".muti-lottery").animate({width:"0px"});
+            $(".lottery").animate({marginLeft:"0px"});
+        }
+    });
+
+    $("#reset-data").click(function() {
+        $("#muti-display-field").html("");
+        tempItemsArray = itemsArray.concat();
     });
 });
 

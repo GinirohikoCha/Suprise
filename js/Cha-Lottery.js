@@ -39,15 +39,18 @@ var lotteryInterval;
 var lotteryTimeout;
 var isLotterying = false;
 
-function startLottery() {
-    if (tempItemsArray.length == 0 || isLotterying)
+var isMutiLottery = false;
+
+function startLottery(times) {
+    if (tempItemsArray.length == 0 || (isLotterying && !isMutiLottery))
         return;
+
     isLotterying = true;
     playStartAudio();
 
     var lotteryDelaySec = randomInt(3, 8);
     lotteryInterval = setInterval(function() {
-        displayItemIndex = randomInt(0, tempItemsArray.length);
+        displayItemIndex = randomInt(0, tempItemsArray.length-1);
         if (isWebGLFluidEnabled)
             splats(1);
         setDisplayItem(displayItemIndex);
@@ -58,9 +61,22 @@ function startLottery() {
         if (isWebGLFluidEnabled)
             splats(parseInt(Math.random() * 20) + 5);
         playEndAudio();
-        
-        isLotterying = false;
-        lotteryStartBtn.text("开 始");
+
+        if (isMutiLottery) {
+            $("#muti-lottery-times").val(times-1);
+            var mutiStr = $("#muti-display-field").html()+tempItemsArray[displayItemIndex]+"<br />";
+            $("#muti-display-field").html(mutiStr);
+            tempItemsArray.splice(displayItemIndex, 1);
+        }
+        if (times == 1) {
+            isLotterying = false;
+            lotteryStartBtn.text("开 始");
+            if (isMutiLottery) {
+                $("#muti-lottery-times-label").text("输入连抽数量");
+            }
+        } else {
+            lotteryTimeout = setTimeout(function(){startLottery(times-1);}, 1500);
+        }
     }, lotteryDelaySec*1000);
 }
 
@@ -110,8 +126,7 @@ function splats(amount) {
 $(document).ready(function() {});
 
 function displayCurrentFileName(name) {
-    $("#lottery-current-file").show();
-    $("#lottery-current-file").text("当前选择文件: "+name);
+    $(".lottery-current-file").text("当前选择文件: "+name);
 }
 
 function enableStartAudio(bool) {
