@@ -42,8 +42,10 @@ var isLotterying = false;
 var isMutiLottery = false;
 
 function startLottery(times) {
-    if (tempItemsArray.length == 0 || (isLotterying && !isMutiLottery))
+    if (tempItemsArray.length == 0 || (isLotterying && !isMutiLottery)) {
+        M.toast({html: "状态错误 无法开始!", displayLength: 2000});
         return;
+    }
 
     isLotterying = true;
     playStartAudio();

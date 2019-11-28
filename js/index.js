@@ -42,12 +42,16 @@ $(document).ready(function() {
         } else {
             if (isMutiLottery) {
                 var lotteryNum = $("#muti-lottery-times").val();
-                if (isNaN(lotteryNum) || lotteryNum <= 0)
-                    return; // TODO
+                if (isNaN(lotteryNum) || lotteryNum <= 0) {
+                    M.toast({html: "非有效数字!", displayLength: 2000});
+                    return;
+                }
                 lotteryNum = Math.ceil(lotteryNum);
                 $("#muti-lottery-times").val(lotteryNum)
-                if (lotteryNum > tempItemsArray.length)
-                    return; // TODO
+                if (lotteryNum > tempItemsArray.length) {
+                    M.toast({html: "数字大于剩余数量!", displayLength: 2000});
+                    return;
+                }
                 $("#muti-lottery-times-label").text("剩余数量");
                 startLottery(lotteryNum);
             } else {
@@ -119,7 +123,8 @@ function initConfigListener() {
         loadLotteryFile(file);
         lotteryConfig["lottery-file-name"] = file.name;
         $.post(host+"config", lotteryConfig, function(data, status){
-            // TODO
+            if (status == "success")
+                M.toast({html: "加载成功!", displayLength: 2000});
         });
     });
     // 处理文件拖放
@@ -129,7 +134,8 @@ function initConfigListener() {
         loadLotteryFile(file);
         lotteryConfig["lottery-file-name"] = file.name;
         $.post(host+"config", lotteryConfig, function(data, status){
-            // TODO
+            if (status == "success")
+                M.toast({html: "加载成功!", displayLength: 2000});
         });
     });
 
@@ -171,7 +177,8 @@ function initConfigListener() {
 
     $(".btn-st-confirm").click(function() {
         $.post(host+"config", lotteryConfig, function(data, status){
-            // TODO
+            if (status == "success")
+                M.toast({html: "保存成功!", displayLength: 2000});
         });
     });
 }

@@ -83,7 +83,7 @@ service.get('/close', function(req, res) {
 service.get('/file', function(req, res) {
     var filePath = req.query.url;
     fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) throw err;
+        // if (err) throw err;
         // res.send(iconv.decode(data, 'gbk'));
         res.send(data);
     });
@@ -93,12 +93,13 @@ service.post('/file', function(req, res) {
     fs.writeFile('./temp.txt', req.body["data"], (err) => {
         if (err) throw err;
         console.log('File saved');
+        res.send("");
     });
 });
 // 获取config
 service.get('/config', function(req, res) {
     fs.readFile('./config.json', 'utf8', (err, data) => {
-        if (err) throw err;
+        // if (err) throw err;
         res.send(data);
     });
 });
@@ -107,5 +108,6 @@ service.post('/config', function(req, res) {
     fs.writeFile('./config.json', JSON.stringify(req.body), (err) => {
         if (err) throw err;
         console.log('Config saved');
+        res.send("");
     });
 });
