@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Cache-Control" content="no-cache">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+        <link rel="apple-touch-icon" href="img/logo.png">
+        <link rel="icon" href="img/logo.png">
+
+        <link href="css/materialize.min.css" rel="stylesheet" media="screen" type="text/css" />
+        <link href="css/CSSFX.css" rel="stylesheet" media="screen" type="text/css" />
+        <link href="css/index.css" rel="stylesheet" media="screen" type="text/css" />
+
+        <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="js/seedrandom.min.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+        <script type="text/javascript" src="js/dat.gui.min.js"></script>
+        <script type="text/javascript" src="js/Cha-Lottery.js"></script>
+
+        <title>有惊喜</title>
+    </head>
+
+    <body>
+        <script>
+            document.ondragover = function (e) {
+                // 只有在ondragover中阻止默认行为才能触发 ondrop 而不是 ondragleave
+                e.preventDefault();
+            };
+            document.ondrop = function (e) {
+                // 阻止 document.ondrop的默认行为  *** 在新窗口中打开拖进的图片
+                e.preventDefault();
+            };
+        </script>
+        <script type="text/javascript" src="js/index.js"></script>
+
+        <div class="dark-cover"></div>
+        <!-- content -->
+        <div class="content">
+            <div class="dark-cover-title"></div>
+            <div class="title">
+                <img class="title-logo" src="img/logo.png" />
+                <div class="title-txt">
+                    有惊喜
+                </div>
+                <div class="title-dragable"></div>
+
+                <div class="btn-function">
+                    <img class="btn-func-close" src="img/close.png" ondragstart="return false" width="40px" height="40px"/>
+                </div>
+            </div>
+
+            <div class="lottery">
+                <audio src="audio/start.mp3" id="lottery-audio-start" hide="true" loop="true"></audio>
+                <audio src="audio/end.ogg" id="lottery-audio-end" hide="true"></audio>
+                <div class="lottery-core" id="lottery-core">
+                    在右上设置中选择文件
+                </div>
+                <div class="lottery-start pillars-a">
+                    开 始
+                </div>
+            </div>
+
+            <!-- settings -->
+            <div class="cha-btn-settings">
+                <img src="img/ic-settings.png" ondragstart="return false" height="46px" width="46px" />
+            </div>
+            <div class="cha-settings-main z-depth-5">
+                <div class="st-content">
+                    <div class="st-file">
+                        <input type="file" id="lottery-file" accept=".txt, .xls, .xlsx">
+                        <label id="lottery-file-dropbox" for="lottery-file">
+                            <img src="img/ic-txt.png" ondragstart="return false" height="65px" width="65px"/>
+                            <div>
+                                <span class="color-link">选择文件上传</span>或拖拽文件到这里<br/>
+                                <span class="color-borrder" id="lottery-current-file"></span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="st-options-p1">
+                        <ul class="collection">
+                            <li class="collection-item">抽奖音效
+                                <div class="secondary-content switch">
+                                    <label>
+                                      关
+                                      <input name="au-start" type="checkbox">
+                                      <span class="lever"></span>
+                                      开
+                                    </label>
+                                </div></li>
+                            <li class="collection-item">流光背景
+                                <div class="secondary-content switch">
+                                    <label>
+                                      关
+                                      <input name="glf" type="checkbox">
+                                      <span class="lever"></span>
+                                      开
+                                    </label>
+                                </div></li>
+                        </ul>
+                    </div>
+                    <div class="st-options-p2">
+                        <ul class="collection">
+                          <li class="collection-item">结束音效
+                              <div class="secondary-content switch">
+                                  <label>
+                                    关
+                                    <input name="au-end" type="checkbox">
+                                    <span class="lever"></span>
+                                    开
+                                  </label>
+                              </div></li>
+                          <li class="collection-item">流光设置
+                              <div class="secondary-content switch">
+                                  <label>
+                                    关
+                                    <input name="glf-st" type="checkbox">
+                                    <span class="lever"></span>
+                                    开
+                                  </label>
+                              </div></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="st-confirm">
+                    <div class="waves-effect waves-light btn btn-st-confirm">保存设置</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WebGL-Fluid -->
+        <canvas></canvas>
+        <script src="js/WebGL-Fluid.js"></script>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+/* Pillars-a */
+.pillars-a {
+  position: relative;
+}
+
+.pillars-a::before, .pillars-a::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #fc2f70;
+  transform-origin: center;
+  transform: scaleY(0);
+  transition: transform 0.5s ease;
+}
+
+.pillars-a::before {
+  left: -8px;
+}
+
+.pillars-a::after {
+  right: -8px;
+}
+
+.pillars-a:hover::before, .pillars-a:hover::after {
+  transform: scaleY(1);
+}
