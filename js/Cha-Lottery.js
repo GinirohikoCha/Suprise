@@ -48,6 +48,7 @@ function startLottery(times) {
 
     isLotterying = true;
     playStartAudio();
+    processEasterEgg();
 
     var lotteryDelaySec = randomInt(3, 8);
     lotteryInterval = setInterval(function() {
@@ -74,6 +75,8 @@ function startLottery(times) {
             switchLotteryStatus(false);
             if (isMutiLottery) {
                 switchMutiLotteryStatus(false);
+            } else {
+                endEasterEgg();
             }
         } else {
             lotteryTimeout = setTimeout(function(){startLottery(times-1);}, 1500);
@@ -123,6 +126,61 @@ function splats(amount) {
     multipleSplats(amount);
 }
 
+// 彩蛋
+var easterEgg = false;
+var egging = -1;
+var date = new Date();
+var dateEgg = true; // 每次启动只执行一次
+var ctLtn = ["曹婷", "曹 婷", "婷曹", "婷 曹", "曹婷曹", "婷曹婷", "曹曹曹", "婷婷婷", "曹婷曹婷曹"];
+
+function processEasterEgg() {
+    if (!easterEgg || isMutiLottery)
+        return;
+
+    if (date.getMonth()+1 == 9) {
+        if (date.getDate() == 10)
+            egging = 2;
+    } else if(date.getMonth()+1 == 3) {
+        if (date.getDate() == 8)
+            egging = 3;
+    } else {
+        if (randomInt(0, 100) != 1) // 概率1%
+            return;
+
+        egging = 1;
+
+        switchMutiLotteryStatus(true);
+        tempItemsArray = ctLtn.concat();
+    }
+}
+function endEasterEgg() {
+    switch(egging) {
+        case -1: return;
+        case 1:
+            tempItemsArray = itemsArray.concat();
+            lotteryDisplay.text(tempItemsArray[randomInt(0, tempItemsArray.length-1)]);
+            switchMutiLotteryStatus(false);
+            break;
+        case 2:
+            if (!dateEgg)
+                return;
+            lotteryDisplay.text("祝曹老师教师节快乐!!!");
+            lotteryStartBtn.text("朕知道了");
+            dateEgg = false;
+            break;
+        case 3:
+            if (!dateEgg)
+                return;
+            lotteryDisplay.text("祝曹老师妇女节快乐!!!");
+            lotteryStartBtn.text("朕知道了");
+            dateEgg = false;
+            break;
+    }
+    egging = -1;
+}
+function enableEasterEgg(bool) {
+    easterEgg = bool;
+}
 /* Setting */
 $(document).ready(function() {});
 

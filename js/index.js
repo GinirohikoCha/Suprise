@@ -33,9 +33,11 @@ $(document).ready(function() {
 
     $(".lottery-start").click(function() {
         if (isLotterying) {
+            if (egging > 0)
+                M.toast({html: "被魔法控制了!无法终止!", displayLength: 4000});
             if (isMutiLottery)
                 switchMutiLotteryStatus(false);
-            stopLottery()
+            stopLottery();
             switchLotteryStatus(false);
         } else {
             if (isMutiLottery) {
@@ -99,6 +101,11 @@ function init() {
     $("input[name='glf-st']").prop("checked", lotteryConfig["fluid-settings"]==="true");
     if (lotteryConfig["fluid-settings"]==="true") {
         startGUI();
+    }
+    // 彩蛋
+    $("input[name='easter-egg']").prop("checked", lotteryConfig["easter-egg"]==="true");
+    if (lotteryConfig["easter-egg"]==="true") {
+        enableEasterEgg(true);
     }
 
     if (lotteryConfig["fluid"]!=="true") {
@@ -184,6 +191,22 @@ function initConfigListener() {
             startGUI();
         } else {
             stopGUI();
+        }
+    });
+
+    $("input[name='easter-egg']").change(function() {
+        if(!this.checked) {
+            switch(randomInt(1, 4)) {
+                case 1:
+                    M.toast({html: "真的真的要关吗??"});break;
+                case 2:
+                    M.toast({html: "不要关啊啊啊啊!"});break;
+                case 3:
+                    M.toast({html: "你关不掉的!ಠ౪ಠ"});break;
+                default:
+                    M.toast({html: "窝窝头!一块钱四个!嘿嘿!"});break;
+            }
+            $(this).prop("checked", true);
         }
     });
 

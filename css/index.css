@@ -122,7 +122,7 @@ canvas {
 }
 
 .lottery-start {
-    width: 80px;
+    width: 100px;
     height: 20px;
     line-height: 20px;
     left: 50%;
@@ -260,7 +260,7 @@ canvas {
     position: absolute;
     margin-bottom: 20px;
     left: 50%;
-    top: 300px;
+    top: 345px;
     transform: translate(-50%, 0);
     -ms-transform: translate(-50%, 0); /* IE 9 */
     -webkit-transform: translate(-50%, 0); /* Safari and Chrome */
