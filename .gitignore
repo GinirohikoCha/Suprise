@@ -84,3 +84,4 @@ dist/builder-effective-config.yaml
 dist/.icon-ico/icon.ico
 *.exe
 *.blockmap
+*.zip
