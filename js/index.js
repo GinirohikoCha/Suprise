@@ -34,9 +34,9 @@ $(document).ready(function() {
     $(".lottery-start").click(function() {
         if (isLotterying) {
             if (isMutiLottery)
-                $("#muti-lottery-times-label").text("输入连抽数量");
+                switchMutiLotteryStatus(false);
             stopLottery()
-            $(this).text("开 始");
+            switchLotteryStatus(false);
         } else {
             if (isMutiLottery) {
                 var lotteryNum = $("#muti-lottery-times").val();
@@ -50,12 +50,12 @@ $(document).ready(function() {
                     M.toast({html: "数字大于剩余数量!", displayLength: 2000});
                     return;
                 }
-                $("#muti-lottery-times-label").text("剩余数量");
+                switchMutiLotteryStatus(true);
                 startLottery(lotteryNum);
             } else {
                 startLottery(1);
             }
-            $(this).text("中 止");
+            switchLotteryStatus(true);
         }
     });
 

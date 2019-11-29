@@ -1,7 +1,7 @@
 const host = "http://localhost:22364/";
 
 var lotteryDisplay; // 抽奖展示框
-var lotteryStartBtn;
+var lotteryStartBtn; // 抽奖按钮
 var displayItemIndex = 0; // 当前抽中项序号
 
 var itemsArray = new Array(); // 所有抽奖项数组,
@@ -38,7 +38,6 @@ function operateLotteryFileString(fileStr) {
 var lotteryInterval;
 var lotteryTimeout;
 var isLotterying = false;
-
 var isMutiLottery = false;
 
 function startLottery(times) {
@@ -72,9 +71,9 @@ function startLottery(times) {
         }
         if (times == 1) {
             isLotterying = false;
-            lotteryStartBtn.text("开 始");
+            switchLotteryStatus(false);
             if (isMutiLottery) {
-                $("#muti-lottery-times-label").text("输入连抽数量");
+                switchMutiLotteryStatus(false);
             }
         } else {
             lotteryTimeout = setTimeout(function(){startLottery(times-1);}, 1500);
@@ -139,6 +138,26 @@ function enableEndAudio(bool) {
 }
 function enableWebGLFluid(bool) {
     isWebGLFluidEnabled = bool;
+}
+
+/* SwitchGUIStatus */
+function switchLotteryStatus(bool) {
+    if (bool) {
+        lotteryStartBtn.text("中 止");
+    } else {
+        lotteryStartBtn.text("开 始");
+    }
+}
+function switchMutiLotteryStatus(bool) {
+    if (bool) {
+        $("#muti-lottery-times").attr("disabled", "disabled");
+        $("input[name='muti-lottery']").attr("disabled", "disabled");
+        $("#muti-lottery-times-label").text("剩余数量");
+    } else {
+        $("#muti-lottery-times").removeAttr("disabled");
+        $("input[name='muti-lottery']").removeAttr("disabled");
+        $("#muti-lottery-times-label").text("输入连抽数量");
+    }
 }
 
 /*
