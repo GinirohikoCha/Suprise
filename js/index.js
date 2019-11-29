@@ -33,11 +33,9 @@ $(document).ready(function() {
 
     $(".lottery-start").click(function() {
         if (isLotterying) {
-            if (isMutiLottery) {
+            if (isMutiLottery)
                 $("#muti-lottery-times-label").text("输入连抽数量");
-            } else {
-                stopLottery();
-            }
+            stopLottery()
             $(this).text("开 始");
         } else {
             if (isMutiLottery) {
@@ -65,14 +63,20 @@ $(document).ready(function() {
         isMutiLottery = this.checked;
         if (this.checked) {
             $(".muti-lottery").animate({width:"300px"});
+            $(".dark-cover-muti-lottery").animate({width:"300px"});
             $(".lottery").animate({marginLeft:"150px"});
         } else {
             $(".muti-lottery").animate({width:"0px"});
+            $(".dark-cover-muti-lottery").animate({width:"0px"});
             $(".lottery").animate({marginLeft:"0px"});
         }
     });
 
     $("#reset-data").click(function() {
+        if (isLotterying) {
+            M.toast({html: "请先停止抽奖!", displayLength: 2000});
+            return;
+        }
         $("#muti-display-field").html("");
         tempItemsArray = itemsArray.concat();
     });

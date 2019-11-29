@@ -82,3 +82,5 @@ dist/Surprise Setup 1.0.0.exe
 dist/latest.yml
 dist/builder-effective-config.yaml
 dist/.icon-ico/icon.ico
+*.exe
+*.blockmap
