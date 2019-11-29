@@ -114,6 +114,7 @@ canvas {
     font-family: monospace;
     font-weight: bold;
     border: 2px solid white;
+    overflow: hidden;
 }
 
 #test-slider {

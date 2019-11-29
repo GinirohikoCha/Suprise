@@ -124,6 +124,10 @@ function initConfigListener() {
 
     $("#lottery-file").change(function() {
         var file = event.target.files[0];
+        if (file.name.indexOf(".txt") == -1) {
+            M.toast({html: "目前仅支持TXT文件!", displayLength: 2000});
+            return;
+        }
         loadLotteryFile(file);
         lotteryConfig["lottery-file-name"] = file.name;
         $.post(host+"config", lotteryConfig, function(data, status){
@@ -135,6 +139,10 @@ function initConfigListener() {
     $("#lottery-file-dropbox").bind('dragover', function(e) {e.preventDefault();});
     $("#lottery-file-dropbox").bind('drop', function(e) {
         var file = e.originalEvent.dataTransfer.files[0];
+        if (file.name.indexOf(".txt") == -1) {
+            M.toast({html: "目前仅支持TXT文件!", displayLength: 2000});
+            return;
+        }
         loadLotteryFile(file);
         lotteryConfig["lottery-file-name"] = file.name;
         $.post(host+"config", lotteryConfig, function(data, status){
