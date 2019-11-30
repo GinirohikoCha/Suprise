@@ -1,9 +1,19 @@
 // const host = "http://localhost:22364/";
 const funcBtnCount = 1; // 功能按键数量
 
-var lotteryConfig; // 配置文件JSONObject
+var lotteryConfig = {
+    "lottery-file-name":"",
+    "audio-start":"true",
+    "audio-end":"true",
+    "fluid":"false",
+    "fluid-settings":"false",
+    "easter-egg":"true"
+}; // 配置文件JSONObject
 // 绑定
 $(document).ready(function() {
+
+    init();
+
     $('.tooltipped').tooltip();
     // 空出功能按键位置
     $(window).resize(function() {
@@ -26,7 +36,8 @@ $(document).ready(function() {
 
     // 读取本地配置文件
     $.get(host+"config", function(data, status){
-        lotteryConfig = JSON.parse(data);
+        if (status == "success")
+            lotteryConfig = JSON.parse(data);
 
         init();
     });
@@ -204,7 +215,7 @@ function initConfigListener() {
                 case 3:
                     M.toast({html: "你关不掉的!ಠ౪ಠ"});break;
                 default:
-                    M.toast({html: "窝窝头!一块钱四个!嘿嘿!"});break;
+                    M.toast({html: "窝↘窝↘头→!一块钱四个!嘿嘿!"});break;
             }
             $(this).prop("checked", true);
         }
