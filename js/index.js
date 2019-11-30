@@ -149,8 +149,10 @@ function initConfigListener() {
         loadLotteryFile(file);
         lotteryConfig["lottery-file-name"] = file.name;
         $.post(host+"config", lotteryConfig, function(data, status){
-            if (status == "success")
+            if (status == "success") {
                 M.toast({html: "加载成功!", displayLength: 2000});
+                $(".cha-settings-main").slideToggle();
+            }
         });
     });
     // 处理文件拖放
@@ -164,8 +166,10 @@ function initConfigListener() {
         loadLotteryFile(file);
         lotteryConfig["lottery-file-name"] = file.name;
         $.post(host+"config", lotteryConfig, function(data, status){
-            if (status == "success")
+            if (status == "success") {
                 M.toast({html: "加载成功!", displayLength: 2000});
+                $(".cha-settings-main").slideToggle();
+            }
         });
     });
 
@@ -223,8 +227,10 @@ function initConfigListener() {
 
     $(".btn-st-confirm").click(function() {
         $.post(host+"config", lotteryConfig, function(data, status){
-            if (status == "success")
+            if (status == "success") {
                 M.toast({html: "保存成功!", displayLength: 2000});
+                $(".cha-settings-main").slideToggle();
+            }
         });
     });
 }
