@@ -1,15 +1,33 @@
-const host = "http://localhost:22364/";
+const ChaLotteryConfig = {
+    "host":"http://localhost:22364/",
+    "lotteryDisplay":"#lottery-core",
+    "lotteryStartBtn":".lottery-start",
+    "lotteryCurrentFile":".lottery-current-file",
+    "mutiLotteryTimes":"#muti-lottery-times", // 连抽次数输入框
+    "mutiLotteryTimesLabel":"#muti-lottery-times-label",
+    "mutiDisplayField":"#muti-display-field", // 连抽展示已抽出的名额
+    "mutiLotterySwitch":"input[name='muti-lottery']",
+    "lotteryAudioStartID":"lottery-audio-start",
+    "lotteryAudioEndID":"lottery-audio-end"
+};
 
 var lotteryDisplay; // 抽奖展示框
 var lotteryStartBtn; // 抽奖按钮
-var displayItemIndex = 0; // 当前抽中项序号
+var mutiLotteryTimes;
+var mutiLotteryTimesLabel;
+var mutiLotterySwitch;
+var mutiDisplayField;
 
 var itemsArray = new Array(); // 所有抽奖项数组,
 var tempItemsArray = new Array(); // 供操作抽奖箱数组,使得连续抽奖中,删除项时不影响原来数组,以便回滚
 
 $(document).ready(function() {
-    lotteryDisplay = $("#lottery-core");
-    lotteryStartBtn = $(".lottery-start");
+    lotteryDisplay = $(ChaLotteryConfig["lotteryDisplay"]);
+    lotteryStartBtn = $(ChaLotteryConfig["lotteryStartBtn"]);
+    mutiLotteryTimes = $(ChaLotteryConfig["mutiLotteryTimes"]);
+    mutiLotteryTimesLabel = $(ChaLotteryConfig["mutiLotteryTimesLabel"]);
+    mutiLotterySwitch = $(ChaLotteryConfig["mutiLotterySwitch"]);
+    mutiDisplayField = $(ChaLotteryConfig["mutiDisplayField"]);
 
     initAudio();
 });
@@ -21,9 +39,7 @@ function loadLotteryFile(file) {
         operateLotteryFileString(this.result);
         // 保存到temp
         var data = {"data": this.result}
-        $.post(host+"file", data, function(data, status){
-            // TODO
-        });
+        $.post(ChaLotteryConfig["host"]+"file", data, null);
     };
     reader.readAsText(file, 'GBK');
     displayCurrentFileName(file.name);
@@ -37,6 +53,7 @@ function operateLotteryFileString(fileStr) {
 
 var lotteryInterval;
 var lotteryTimeout;
+var displayItemIndex = 0; // 当前抽中项序号
 var isLotterying = false;
 var isMutiLottery = false;
 
@@ -65,9 +82,10 @@ function startLottery(times) {
         playEndAudio();
 
         if (isMutiLottery) {
-            $("#muti-lottery-times").val(times-1);
-            var mutiStr = $("#muti-display-field").html()+tempItemsArray[displayItemIndex]+"<br />";
-            $("#muti-display-field").html(mutiStr);
+            mutiLotteryTimes.val(times-1);
+
+            var mutiStr = mutiDisplayField.html()+tempItemsArray[displayItemIndex]+"<br />";
+            mutiDisplayField.html(mutiStr);
             tempItemsArray.splice(displayItemIndex, 1);
         }
         if (times == 1) {
@@ -101,8 +119,8 @@ var audioEndEle;
 var isStartAudioEnable = false;
 var isEndAudioEnable = false;
 function initAudio() {
-    audioStartEle = document.getElementById("lottery-audio-start");
-    audioEndEle = document.getElementById("lottery-audio-end");
+    audioStartEle = document.getElementById(ChaLotteryConfig["lotteryAudioStartID"]);
+    audioEndEle = document.getElementById(ChaLotteryConfig["lotteryAudioEndID"]);
     audioStartEle.load();
     audioEndEle.load();
 }
@@ -139,10 +157,10 @@ function processEasterEgg() {
 
     if (date.getMonth()+1 == 9) {
         if (date.getDate() == 10)
-            egging = 2;
+            egging = 2; // 9月10号
     } else if(date.getMonth()+1 == 3) {
         if (date.getDate() == 8)
-            egging = 3;
+            egging = 3; // 3月8号
     } else {
         if (randomInt(0, 100) != 1) // 概率1%
             return;
@@ -185,7 +203,7 @@ function enableEasterEgg(bool) {
 $(document).ready(function() {});
 
 function displayCurrentFileName(name) {
-    $(".lottery-current-file").text("当前选择文件: "+name);
+    $(ChaLotteryConfig["lotteryCurrentFile"]).text("当前选择文件: "+name);
 }
 
 function enableStartAudio(bool) {
@@ -208,13 +226,13 @@ function switchLotteryStatus(bool) {
 }
 function switchMutiLotteryStatus(bool) {
     if (bool) {
-        $("#muti-lottery-times").attr("disabled", "disabled");
-        $("input[name='muti-lottery']").attr("disabled", "disabled");
-        $("#muti-lottery-times-label").text("剩余数量");
+        mutiLotteryTimes.attr("disabled", "disabled");
+        mutiLotterySwitch.attr("disabled", "disabled");
+        mutiLotteryTimesLabel.text("剩余数量");
     } else {
-        $("#muti-lottery-times").removeAttr("disabled");
-        $("input[name='muti-lottery']").removeAttr("disabled");
-        $("#muti-lottery-times-label").text("输入连抽数量");
+        mutiLotteryTimes.removeAttr("disabled");
+        mutiLotterySwitch.removeAttr("disabled");
+        mutiLotteryTimesLabel.text("输入连抽数量");
     }
 }
 

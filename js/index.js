@@ -1,4 +1,4 @@
-// const host = "http://localhost:22364/";
+const host = "http://localhost:22364/";
 const funcBtnCount = 1; // 功能按键数量
 
 var lotteryConfig = {
@@ -8,30 +8,22 @@ var lotteryConfig = {
     "fluid":"false",
     "fluid-settings":"false",
     "easter-egg":"true"
-}; // 配置文件JSONObject
+}; // 默认配置文件
+
 // 绑定
 $(document).ready(function() {
 
-    init();
+    initConfig(); // 初始化默认配置文件
+    $('.tooltipped').tooltip(); // 初始化悬浮弹框
 
-    $('.tooltipped').tooltip();
-    // 空出功能按键位置
-    $(window).resize(function() {
-        $(".title-dragable").width($(window).width()-50*funcBtnCount);
-    });
-
+    /* 系统按键初始化 */
     // 关闭按钮
     $(".btn-func-close").click(function() {
         $.get(host+"close", null);
     });
 
-    $(".clickable-item").click(function() {
-        $(this).toggleClass("active");
-        $(this).toggleClass("clickable-anim");
-        $(this).siblings(".collection-item").removeClass("active");
-        $(this).siblings(".collection-item").addClass("clickable-anim");
-    });
-
+    initVisual();
+    initBtn();
     initConfigListener();
 
     // 读取本地配置文件
@@ -39,9 +31,12 @@ $(document).ready(function() {
         if (status == "success")
             lotteryConfig = JSON.parse(data);
 
-        init();
+        initConfig();
     });
+});
 
+function initBtn() {
+    // 开始
     $(".lottery-start").click(function() {
         if (isLotterying) {
             if (egging > 0)
@@ -71,7 +66,7 @@ $(document).ready(function() {
             switchLotteryStatus(true);
         }
     });
-
+    // 开关连抽
     $("input[name='muti-lottery']").change(function() {
         isMutiLottery = this.checked;
         if (this.checked) {
@@ -84,7 +79,7 @@ $(document).ready(function() {
             $(".lottery").animate({marginLeft:"0px"});
         }
     });
-
+    // 重置
     $("#reset-data").click(function() {
         if (isLotterying) {
             M.toast({html: "请先停止抽奖!", displayLength: 2000});
@@ -93,10 +88,22 @@ $(document).ready(function() {
         $("#muti-display-field").html("");
         tempItemsArray = itemsArray.concat();
     });
-});
-
+}
+function initVisual() {
+    // 功能按键位置预留
+    $(window).resize(function() {
+        $(".title-dragable").width($(window).width()-50*funcBtnCount);
+    });
+    // 可点击选项动画
+    $(".clickable-item").click(function() {
+        $(this).toggleClass("active");
+        $(this).toggleClass("clickable-anim");
+        $(this).siblings(".collection-item").removeClass("active");
+        $(this).siblings(".collection-item").addClass("clickable-anim");
+    });
+}
 // 配置文件初始化
-function init() {
+function initConfig() {
     // 抽奖音效开关
     $("input[name='au-start']").prop("checked", lotteryConfig["audio-start"]==="true");
     enableStartAudio(lotteryConfig["audio-start"]==="true");
