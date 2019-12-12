@@ -1,10 +1,27 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, Tray} = require('electron');
+const {app, BrowserWindow, dialog} = require('electron');
 const path = require('path');
 const iconv = require("iconv-lite");
 
 const hostname = '127.0.0.1';
 const port = 22364;
+
+// uncaughtException handler
+process.on('uncaughtException', (e) => {
+    switch(e.code) {
+        case "EADDRINUSE":
+            dialog.showMessageBoxSync({
+                title: "错误",
+                message: "请先关闭运行中的有惊喜"
+            });
+            app.quit();
+            break;
+        default:
+            console.log(e.code);
+            console.log(e);
+    }
+});
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -48,7 +65,10 @@ function createWindow () {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', function() {
+    createWindow();
+    startService();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
@@ -73,42 +93,44 @@ const service = express();
 service.use(bodyParser.json()); // for parsing application/json
 service.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-service.listen(port, function () {
-    console.log("Service started");
-});
+function startService() {
+    service.listen(port, function() {
+        console.log("Service started");
+    });
 
-service.get('/close', function(req, res) {
-    mainWindow.close();
-});
-// 获取选择的文件
-service.get('/file', function(req, res) {
-    var filePath = req.query.url;
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        // if (err) throw err;
-        // res.send(iconv.decode(data, 'gbk'));
-        res.send(data);
+    service.get('/close', function(req, res) {
+        mainWindow.close();
     });
-});
-// 保存文件副本
-service.post('/file', function(req, res) {
-    fs.writeFile('./temp.txt', req.body["data"], (err) => {
-        if (err) throw err;
-        console.log('File saved');
-        res.send("");
+    // 获取选择的文件
+    service.get('/file', function(req, res) {
+        var filePath = req.query.url;
+        fs.readFile(filePath, 'utf8', (err, data) => {
+            // if (err) throw err;
+            // res.send(iconv.decode(data, 'gbk'));
+            res.send(data);
+        });
     });
-});
-// 获取config
-service.get('/config', function(req, res) {
-    fs.readFile('./config.json', 'utf8', (err, data) => {
-        // if (err) throw err;
-        res.send(data);
+    // 保存文件副本
+    service.post('/file', function(req, res) {
+        fs.writeFile('./temp.txt', req.body["data"], (err) => {
+            if (err) throw err;
+            console.log('File saved');
+            res.send("");
+        });
     });
-});
-// 上传config
-service.post('/config', function(req, res) {
-    fs.writeFile('./config.json', JSON.stringify(req.body), (err) => {
-        if (err) throw err;
-        console.log('Config saved');
-        res.send("");
+    // 获取config
+    service.get('/config', function(req, res) {
+        fs.readFile('./config.json', 'utf8', (err, data) => {
+            // if (err) throw err;
+            res.send(data);
+        });
     });
-});
+    // 上传config
+    service.post('/config', function(req, res) {
+        fs.writeFile('./config.json', JSON.stringify(req.body), (err) => {
+            if (err) throw err;
+            console.log('Config saved');
+            res.send("");
+        });
+    });
+}
