@@ -87,6 +87,7 @@ function initBtn() {
         }
         $("#muti-display-field").html("");
         tempItemsArray = itemsArray.concat();
+        refreshMutiRestDisplayField();
     });
 }
 function initVisual() {

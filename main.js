@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, Menu, BrowserWindow} = require('electron');
+const {app, BrowserWindow, Tray} = require('electron');
 const path = require('path');
 const iconv = require("iconv-lite");
 
@@ -20,6 +20,7 @@ function createWindow () {
         frame: false,
         show: false,
         maximizable: false,
+        icon: './icon.png',
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         }

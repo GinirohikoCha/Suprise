@@ -6,6 +6,7 @@ const ChaLotteryConfig = {
     "mutiLotteryTimes":"#muti-lottery-times", // 连抽次数输入框
     "mutiLotteryTimesLabel":"#muti-lottery-times-label",
     "mutiDisplayField":"#muti-display-field", // 连抽展示已抽出的名额
+    "mutiRestDisplayField":"#muti-rest-display-field", // 连抽展示未被抽的名额
     "mutiLotterySwitch":"input[name='muti-lottery']",
     "lotteryAudioStartID":"lottery-audio-start",
     "lotteryAudioEndID":"lottery-audio-end"
@@ -17,6 +18,7 @@ var mutiLotteryTimes;
 var mutiLotteryTimesLabel;
 var mutiLotterySwitch;
 var mutiDisplayField;
+var mutiRestDisplayField;
 
 var itemsArray = new Array(); // 所有抽奖项数组,
 var tempItemsArray = new Array(); // 供操作抽奖箱数组,使得连续抽奖中,删除项时不影响原来数组,以便回滚
@@ -28,6 +30,7 @@ $(document).ready(function() {
     mutiLotteryTimesLabel = $(ChaLotteryConfig["mutiLotteryTimesLabel"]);
     mutiLotterySwitch = $(ChaLotteryConfig["mutiLotterySwitch"]);
     mutiDisplayField = $(ChaLotteryConfig["mutiDisplayField"]);
+    mutiRestDisplayField = $(ChaLotteryConfig["mutiRestDisplayField"]);
 
     initAudio();
 });
@@ -49,6 +52,7 @@ function operateLotteryFileString(fileStr) {
     itemsArray = fileStr.split("\n");
     tempItemsArray = itemsArray.concat();
     setDisplayItem(0);
+    refreshMutiRestDisplayField();
 }
 
 var lotteryInterval;
@@ -87,6 +91,7 @@ function startLottery(times) {
             var mutiStr = mutiDisplayField.html()+tempItemsArray[displayItemIndex]+"<br />";
             mutiDisplayField.html(mutiStr);
             tempItemsArray.splice(displayItemIndex, 1);
+            refreshMutiRestDisplayField();
         }
         if (times == 1) {
             isLotterying = false;
@@ -113,6 +118,13 @@ function setDisplayItem(index) {
     lotteryDisplay.text(tempItemsArray[index]);
 }
 
+function refreshMutiRestDisplayField() {
+    var mutiRestStr = "";
+    for (var i=0; i<tempItemsArray.length; i++) {
+        mutiRestStr += tempItemsArray[i] + "<br />";
+    }
+    mutiRestDisplayField.html(mutiRestStr);
+}
 // 音效
 var audioStartEle;
 var audioEndEle;
