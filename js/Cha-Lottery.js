@@ -232,8 +232,10 @@ function enableWebGLFluid(bool) {
 function switchLotteryStatus(bool) {
     if (bool) {
         lotteryStartBtn.text("中 止");
+        mutiLotterySwitch.attr("disabled", "disabled");
     } else {
         lotteryStartBtn.text("开 始");
+        mutiLotterySwitch.removeAttr("disabled");
     }
 }
 function switchMutiLotteryStatus(bool) {

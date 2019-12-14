@@ -113,7 +113,7 @@ function startService() {
     // 保存文件副本
     service.post('/file', function(req, res) {
         fs.writeFile('./temp.txt', req.body["data"], (err) => {
-            if (err) throw err;
+            // if (err) throw err;
             console.log('File saved');
             res.send("");
         });
@@ -128,7 +128,7 @@ function startService() {
     // 上传config
     service.post('/config', function(req, res) {
         fs.writeFile('./config.json', JSON.stringify(req.body), (err) => {
-            if (err) throw err;
+            // if (err) throw err;
             console.log('Config saved');
             res.send("");
         });
