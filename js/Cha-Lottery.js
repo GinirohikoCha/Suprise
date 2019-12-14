@@ -6,7 +6,7 @@ const ChaLotteryConfig = {
     "mutiLotteryTimes":"#muti-lottery-times", // 连抽次数输入框
     "mutiLotteryTimesLabel":"#muti-lottery-times-label",
     "mutiDisplayField":"#muti-display-field", // 连抽展示已抽出的名额
-    "mutiRestDisplayField":"#muti-rest-display-field", // 连抽展示未被抽的名额
+    "restDisplayField":"#rest-display-field", // 展示未被抽的名额
     "mutiLotterySwitch":"input[name='muti-lottery']",
     "lotteryAudioStartID":"lottery-audio-start",
     "lotteryAudioEndID":"lottery-audio-end"
@@ -18,7 +18,7 @@ var mutiLotteryTimes;
 var mutiLotteryTimesLabel;
 var mutiLotterySwitch;
 var mutiDisplayField;
-var mutiRestDisplayField;
+var restDisplayField;
 
 var itemsArray = new Array(); // 所有抽奖项数组,
 var tempItemsArray = new Array(); // 供操作抽奖箱数组,使得连续抽奖中,删除项时不影响原来数组,以便回滚
@@ -30,7 +30,7 @@ $(document).ready(function() {
     mutiLotteryTimesLabel = $(ChaLotteryConfig["mutiLotteryTimesLabel"]);
     mutiLotterySwitch = $(ChaLotteryConfig["mutiLotterySwitch"]);
     mutiDisplayField = $(ChaLotteryConfig["mutiDisplayField"]);
-    mutiRestDisplayField = $(ChaLotteryConfig["mutiRestDisplayField"]);
+    restDisplayField = $(ChaLotteryConfig["restDisplayField"]);
 
     initAudio();
 });
@@ -52,7 +52,7 @@ function operateLotteryFileString(fileStr) {
     itemsArray = fileStr.split("\n");
     tempItemsArray = itemsArray.concat();
     setDisplayItem(0);
-    refreshMutiRestDisplayField();
+    refreshRestDisplayField();
 }
 
 var lotteryInterval;
@@ -60,6 +60,7 @@ var lotteryTimeout;
 var displayItemIndex = 0; // 当前抽中项序号
 var isLotterying = false;
 var isMutiLottery = false;
+var isRepeatable = false;
 
 function startLottery(times) {
     if (tempItemsArray.length == 0 || (isLotterying && !isMutiLottery)) {
@@ -90,9 +91,10 @@ function startLottery(times) {
 
             var mutiStr = mutiDisplayField.html()+tempItemsArray[displayItemIndex]+"<br />";
             mutiDisplayField.html(mutiStr);
-            tempItemsArray.splice(displayItemIndex, 1);
-            refreshMutiRestDisplayField();
         }
+        if (!isRepeatable)
+            tempItemsArray.splice(displayItemIndex, 1);
+        refreshRestDisplayField();
         if (times == 1) {
             isLotterying = false;
             switchLotteryStatus(false);
@@ -118,12 +120,16 @@ function setDisplayItem(index) {
     lotteryDisplay.text(tempItemsArray[index]);
 }
 
-function refreshMutiRestDisplayField() {
-    var mutiRestStr = "";
+function rollbackData() {
+    tempItemsArray = itemsArray.concat();
+}
+
+function refreshRestDisplayField() {
+    var restStr = "";
     for (var i=0; i<tempItemsArray.length; i++) {
-        mutiRestStr += tempItemsArray[i] + "<br />";
+        restStr += tempItemsArray[i] + "<br />";
     }
-    mutiRestDisplayField.html(mutiRestStr);
+    restDisplayField.html(restStr);
 }
 // 音效
 var audioStartEle;
@@ -162,6 +168,7 @@ var egging = -1;
 var date = new Date();
 var dateEgg = true; // 每次启动只执行一次
 var ctLtn = ["曹婷", "曹 婷", "婷曹", "婷 曹", "曹婷曹", "婷曹婷", "曹曹曹", "婷婷婷", "曹婷曹婷曹"];
+var eggTemp;
 
 function processEasterEgg() {
     if (!easterEgg || isMutiLottery)
@@ -181,13 +188,14 @@ function processEasterEgg() {
 
         switchMutiLotteryStatus(true);
         tempItemsArray = ctLtn.concat();
+        eggTemp = tempItemsArray;
     }
 }
 function endEasterEgg() {
     switch(egging) {
         case -1: return;
         case 1:
-            tempItemsArray = itemsArray.concat();
+            tempItemsArray = eggTemp;
             lotteryDisplay.text(tempItemsArray[randomInt(0, tempItemsArray.length-1)]);
             switchMutiLotteryStatus(false);
             break;
@@ -227,7 +235,9 @@ function enableEndAudio(bool) {
 function enableWebGLFluid(bool) {
     isWebGLFluidEnabled = bool;
 }
-
+function allowRepeat(bool) {
+    isRepeatable = bool;
+}
 /* SwitchGUIStatus */
 function switchLotteryStatus(bool) {
     if (bool) {

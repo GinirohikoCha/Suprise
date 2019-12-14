@@ -46,10 +46,26 @@
                 <div class="title-dragable"></div>
 
                 <div class="btn-function">
-                    <img class="btn-func-close" src="img/close.png" ondragstart="return false" width="40px" height="40px"/>
+                    <img class="btn-func-close tooltipped" src="img/close.png" ondragstart="return false" width="40px" height="40px" data-position="bottom" data-tooltip="关闭" />
+                </div>
+                <div class="btn-function btn-func-setting">
+                    <img class="cha-btn-settings tooltipped" src="img/ic-settings.png" ondragstart="return false" height="28px" width="28px" data-position="bottom" data-tooltip="设置" />
+                </div>
+                <div class="btn-function btn-func-refresh">
+                    <img class="cha-btn-ic-refresh tooltipped"  src="img/ic-refresh.png" ondragstart="return false" height="30px" width="30px" data-position="bottom" data-tooltip="重置名单" />
                 </div>
             </div>
 
+            <!-- rest-display -->
+            <div class="rest-display">
+                <div class="dark-cover-rest-display"></div>
+                <div class="rest-display-title">名单列表</div>
+                <div id="rest-display-field"></div>
+            </div>
+            <div class="btn-rest-display">
+                <div class="dark-cover-btn-rest-display"></div>
+                <img id="btn-rest-display" src="img/ic-left.png" ondragstart="return false" width="40px" height="90px"/>
+            </div>
             <!-- muti-lottery -->
             <div class="muti-lottery">
                 <div class="dark-cover-muti-lottery"></div>
@@ -59,6 +75,7 @@
                         <label id="muti-lottery-times-label" for="muti-lottery-times">输入连抽数量</label>
                     </div>
 
+                    <div class="muti-display-title">抽中名单</div>
                     <div id="muti-display-field"></div>
                     <div class="waves-effect waves-light btn" id="reset-data">重置结果</div>
                 </div>
@@ -83,9 +100,6 @@
             </div>
 
             <!-- settings -->
-            <div class="cha-btn-settings">
-                <img src="img/ic-settings.png" ondragstart="return false" height="46px" width="46px" />
-            </div>
             <div class="cha-settings-main z-depth-5">
                 <div class="st-content">
                     <div class="st-file">
@@ -146,6 +160,15 @@
                                   <label>
                                     关
                                     <input name="glf-st" type="checkbox">
+                                    <span class="lever"></span>
+                                    开
+                                  </label>
+                              </div></li>
+                          <li class="collection-item tooltipped" data-position="bottom" data-tooltip="允许抽到重复项">允许重复
+                              <div class="secondary-content switch">
+                                  <label>
+                                    关
+                                    <input name="allow-repeat" type="checkbox">
                                     <span class="lever"></span>
                                     开
                                   </label>

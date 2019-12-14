@@ -44,6 +44,24 @@ canvas {
     background-color: #eeeeee;
 }
 
+*::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width : 5px;  /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+*::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 5px;
+    box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background   : #535353;
+}
+*::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    background   : #ededed;
+}
+
 /* Title */
 .content .title {
     position: absolute;
@@ -54,7 +72,7 @@ canvas {
 .content .title .title-dragable {
     position: absolute;
     height: 40px;
-    width: 1150px;
+    width: 1080px;
     -webkit-app-region: drag;
 }
 
@@ -77,7 +95,6 @@ canvas {
 }
 
 .content .title .btn-function {
-    margin-right: 10px;
     float: right;
     height: 40px;
     transition: transform 0.5s;
@@ -92,6 +109,15 @@ canvas {
 }
 
 .content .title .btn-function .btn-func-close {}
+
+.content .title .btn-func-setting {
+    padding: 6px;
+}
+
+.content .title .btn-func-refresh {
+    padding: 5px;
+}
+
 /* Lottery */
 .lottery {
     position: absolute;
@@ -148,6 +174,66 @@ canvas {
     font-size: 13px;
 }
 
+/* item展示 */
+.rest-display {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    height: 100%;
+    width: 0;
+    overflow-x: hidden;
+}
+
+.rest-display-title {
+    position: absolute;
+    width: 90%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 12px;
+    color: white;
+    font-size: 12px;
+    font-family: "黑体";
+}
+
+#rest-display-field {
+    position: absolute;
+    width: 90%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 30px;
+    margin-bottom: 100px;
+    border: 2px dashed white;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.btn-rest-display {
+    position: absolute;
+    top: 40px;
+    height: 100%;
+    width: 40px;
+    right: 0;
+    overflow: hidden;
+}
+
+.btn-rest-display img {
+    position: absolute;
+    top: 45%;
+    transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%); /* IE 9 */
+    -webkit-transform: translate(0, -50%); /* Safari and Chrome */
+    cursor: pointer;
+    transition: transform 0.2s;
+    -webkit-transition: transform 0.2s; /* Safari */
+}
+
+.btn-rest-display .btn-anim-rest-display:hover {
+    transform: rotateY(180deg) translate(0, -50%);
+	-webkit-transform: rotateY(180deg) translate(0, -50%); /* Safari and Chrome */
+}
+
 /* 连抽 */
 .btn-muti-lottery {
     float: right;
@@ -181,10 +267,18 @@ canvas {
     font-weight: bold;
 }
 
+.muti-display-title {
+    color: white;
+    font-size: 12px;
+    font-family: "黑体";
+}
+
 .muti-lottery-content #muti-display-field {
     border: 2px dashed white;
     color: white;
     text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .muti-lottery-content #reset-data {
@@ -196,11 +290,6 @@ canvas {
 
 /* Setting */
 .cha-btn-settings {
-    position: absolute;
-    right: 20px;
-    top: 60px;
-    width: 46px;
-    height: 46px;
     transition: transform 1s;
     -webkit-transition: -webkit-transform 1s; /* Safari */
 }
@@ -317,6 +406,21 @@ canvas {
     opacity: 0.2;
 }
 
+.dark-cover-rest-display {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: black;
+    opacity: 0.2;
+}
+
+.dark-cover-btn-rest-display {
+    position: fixed;
+    height: 100%;
+    width: 40px;
+    background: black;
+    opacity: 0.2;
+}
 /* Plugins */
 .dg.ac {
     top: 40px !important;

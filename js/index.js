@@ -1,5 +1,5 @@
 const host = "http://localhost:22364/";
-const funcBtnCount = 1; // 功能按键数量
+const funcBtnCount = 3; // 功能按键数量
 
 var lotteryConfig = {
     "lottery-file-name":"",
@@ -7,8 +7,11 @@ var lotteryConfig = {
     "audio-end":"true",
     "fluid":"false",
     "fluid-settings":"false",
-    "easter-egg":"true"
+    "easter-egg":"true",
+    "allow-repeat":"false"
 }; // 默认配置文件
+
+var isShowingRest = false;
 
 // 绑定
 $(document).ready(function() {
@@ -72,12 +75,11 @@ function initBtn() {
         if (this.checked) {
             $(".muti-lottery").animate({width:"300px"});
             $(".dark-cover-muti-lottery").animate({width:"300px"});
-            $(".lottery").animate({marginLeft:"150px"});
         } else {
             $(".muti-lottery").animate({width:"0px"});
             $(".dark-cover-muti-lottery").animate({width:"0px"});
-            $(".lottery").animate({marginLeft:"0px"});
         }
+        refreshLotteryPosition();
     });
     // 重置
     $("#reset-data").click(function() {
@@ -86,14 +88,38 @@ function initBtn() {
             return;
         }
         $("#muti-display-field").html("");
-        tempItemsArray = itemsArray.concat();
-        refreshMutiRestDisplayField();
+        rollbackData();
+        refreshRestDisplayField();
+    });
+
+    $(".cha-btn-ic-refresh").click(function() {
+        if (isLotterying) {
+            M.toast({html: "请先停止抽奖!", displayLength: 2000});
+            return;
+        }
+        $("#muti-display-field").html("");
+        rollbackData();
+        refreshRestDisplayField();
+    });
+    // 展示剩余
+    $("#btn-rest-display").click(function() {
+        $(this).toggleClass("btn-anim-rest-display");
+        isShowingRest = !isShowingRest;
+        if (isShowingRest) {
+            $(".rest-display").animate({width:"200px"});
+            $(".btn-rest-display").animate({marginRight:"200px"});
+        } else {
+            $(".rest-display").animate({width:"0px"});
+            $(".btn-rest-display").animate({marginRight:"0px"});
+        }
+        refreshLotteryPosition();
     });
 }
+
 function initVisual() {
     // 功能按键位置预留
     $(window).resize(function() {
-        $(".title-dragable").width($(window).width()-50*funcBtnCount);
+        $(".title-dragable").width($(window).width()-40*funcBtnCount);
     });
     // 可点击选项动画
     $(".clickable-item").click(function() {
@@ -125,6 +151,11 @@ function initConfig() {
     $("input[name='easter-egg']").prop("checked", lotteryConfig["easter-egg"]==="true");
     if (lotteryConfig["easter-egg"]==="true") {
         enableEasterEgg(true);
+    }
+    // 彩蛋
+    $("input[name='allow-repeat']").prop("checked", lotteryConfig["allow-repeat"]==="true");
+    if (lotteryConfig["allow-repeat"]==="true") {
+        allowRepeat(true);
     }
 
     if (lotteryConfig["fluid"]!=="true") {
@@ -233,6 +264,11 @@ function initConfigListener() {
         }
     });
 
+    $("input[name='allow-repeat']").change(function() {
+        lotteryConfig["allow-repeat"] = this.checked;
+        allowRepeat(this.checked);
+    });
+
     $(".btn-st-confirm").click(function() {
         $.post(host+"config", lotteryConfig, function(data, status){
             if (status == "success") {
@@ -241,4 +277,16 @@ function initConfigListener() {
             }
         });
     });
+}
+
+function refreshLotteryPosition() {
+    if (isMutiLottery) {
+        if (isShowingRest) {
+            $(".lottery").animate({marginLeft:"40px"});
+        } else {
+            $(".lottery").animate({marginLeft:"150px"});
+        }
+    } else {
+        $(".lottery").animate({marginLeft:"0px"});
+    }
 }
