@@ -52,7 +52,7 @@ function initBtn() {
             if (isMutiLottery) {
                 var lotteryNum = $("#muti-lottery-times").val();
                 if (isNaN(lotteryNum) || lotteryNum <= 0) {
-                    M.toast({html: "非有效数字!", displayLength: 2000});
+                    M.toast({html: "连抽数量输入错误!", displayLength: 2000});
                     return;
                 }
                 lotteryNum = Math.ceil(lotteryNum);
@@ -107,7 +107,7 @@ function initBtn() {
         isShowingRest = !isShowingRest;
         if (isShowingRest) {
             $(".rest-display").animate({width:"200px"});
-            $(".btn-rest-display").animate({marginRight:"200px"});
+            $(".btn-rest-display").animate({marginRight:"170px"});
         } else {
             $(".rest-display").animate({width:"0px"});
             $(".btn-rest-display").animate({marginRight:"0px"});

@@ -186,23 +186,26 @@ canvas {
 
 .rest-display-title {
     position: absolute;
-    width: 90%;
-    margin-left: 10px;
+    width: 80%;
+    margin-left: 30px;
     margin-right: 10px;
     margin-top: 12px;
     color: white;
     font-size: 12px;
     font-family: "黑体";
+    white-space: nowrap;
 }
 
 #rest-display-field {
     position: absolute;
-    width: 90%;
-    margin-left: 10px;
+    width: 80%;
+    margin-left: 30px;
     margin-right: 10px;
     margin-top: 30px;
     margin-bottom: 100px;
-    border: 2px dashed white;
+    border-top: 2px dashed white;
+    border-bottom: 2px dashed white;
+    padding: 10px;
     color: white;
     text-align: center;
     overflow: hidden;
@@ -213,7 +216,7 @@ canvas {
     position: absolute;
     top: 40px;
     height: 100%;
-    width: 40px;
+    width: 30px;
     right: 0;
     overflow: hidden;
 }
@@ -229,7 +232,7 @@ canvas {
     -webkit-transition: transform 0.2s; /* Safari */
 }
 
-.btn-rest-display .btn-anim-rest-display:hover {
+.btn-rest-display .btn-anim-rest-display {
     transform: rotateY(180deg) translate(0, -50%);
 	-webkit-transform: rotateY(180deg) translate(0, -50%); /* Safari and Chrome */
 }
@@ -271,10 +274,13 @@ canvas {
     color: white;
     font-size: 12px;
     font-family: "黑体";
+    white-space: nowrap;
 }
 
 .muti-lottery-content #muti-display-field {
-    border: 2px dashed white;
+    border-top: 2px dashed white;
+    border-bottom: 2px dashed white;
+    padding: 10px;
     color: white;
     text-align: center;
     overflow: hidden;
@@ -414,13 +420,13 @@ canvas {
     opacity: 0.2;
 }
 
-.dark-cover-btn-rest-display {
+/* .dark-cover-btn-rest-display {
     position: fixed;
     height: 100%;
     width: 40px;
     background: black;
     opacity: 0.2;
-}
+} */
 /* Plugins */
 .dg.ac {
     top: 40px !important;
