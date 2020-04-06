@@ -21,3 +21,4 @@ dist/.icon-ico/icon.ico
 *.dll
 *.dat
 dist/win-unpacked/icon.png
+*.txt
